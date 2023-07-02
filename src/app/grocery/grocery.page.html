@@ -1,0 +1,28 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>
+      Grocery
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">Grocery</ion-title>
+    </ion-toolbar>
+  </ion-header>
+  <ion-list id="groceryList">
+    <ion-item-sliding *ngFor="let grocery of groceries">
+      <ion-item> 
+        {{ grocery.toString() }} 
+      </ion-item>
+      <ion-item-options>
+        <ion-item-option color="danger">
+          <ion-icon aria-hidden="true" name="trash-outline"></ion-icon>
+        </ion-item-option>
+      </ion-item-options>
+    </ion-item-sliding>
+  </ion-list>
+  
+</ion-content>
