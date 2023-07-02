@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { GroceryPage } from './grocery.page';
 import { ExploreContainerComponentModule } from '../explore-container/explore-container.module';
-
+import { ScrollingModule } from '@angular/cdk/scrolling';
 import { GroceryPageRoutingModule } from './grocery-routing.module';
 
 @NgModule({
@@ -13,7 +13,8 @@ import { GroceryPageRoutingModule } from './grocery-routing.module';
     CommonModule,
     FormsModule,
     ExploreContainerComponentModule,
-    GroceryPageRoutingModule
+    GroceryPageRoutingModule,
+    ScrollingModule
   ],
   declarations: [GroceryPage]
 })

@@ -6,23 +6,34 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Grocery</ion-title>
-    </ion-toolbar>
-  </ion-header>
-  <ion-list id="groceryList">
-    <ion-item-sliding *ngFor="let grocery of groceries">
-      <ion-item> 
-        {{ grocery.toString() }} 
-      </ion-item>
-      <ion-item-options>
-        <ion-item-option color="danger">
-          <ion-icon aria-hidden="true" name="trash-outline"></ion-icon>
-        </ion-item-option>
-      </ion-item-options>
-    </ion-item-sliding>
-  </ion-list>
+<ion-content [scrollY]="true">
+  <cdk-virtual-scroll-viewport itemSize="56" minBufferPx="900" maxBufferPx="1350" class="ion-content-scroll-host">
+    <ion-list #groceryList>
+      <ion-item-sliding #listItem *cdkVirtualFor="let grocery of groceries; let i = index">
+        <ion-item>
+          <div>
+            <h2>{{grocery.name}}</h2>
+            <p>{{grocery.count}}</p>
+          </div>
+        </ion-item>
+        <ion-item-options>
+          <ion-item-option color="danger">
+            <ion-button (click)="removeItem(grocery, i)" fill="clear" color="dark">
+              <div>
+                <ion-icon name="trash-outline"></ion-icon>
+                <br>
+                <ion-text>Delete</ion-text>
+              </div>
+            </ion-button>
+          </ion-item-option>
+        </ion-item-options>
+      </ion-item-sliding>
+    </ion-list>
+  </cdk-virtual-scroll-viewport>
   
+  <ion-fab slot="fixed" vertical="bottom" horizontal="end">
+    <ion-fab-button (click)="addItem()">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
 </ion-content>
