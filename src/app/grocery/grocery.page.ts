@@ -1,11 +1,10 @@
 import { Component } from '@angular/core';
 import { Grocery } from './grocery';
-import { ToastController } from '@ionic/angular';
-import { AlertController } from '@ionic/angular';
 import { IonItemSliding } from '@ionic/angular';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { Observable } from 'rxjs';
 import { GroceriesService } from '../services/groceries.service';
 import { InputDialogService } from '../services/input-dialog.service';
+import { SocialSharing } from '@awesome-cordova-plugins/social-sharing/ngx';
 
 @Component({
   selector: 'app-grocery',
@@ -15,7 +14,7 @@ import { InputDialogService } from '../services/input-dialog.service';
 export class GroceryPage {
   groceries: Observable<Grocery[]> = new Observable()
 
-  constructor(public dataService: GroceriesService, public inputDialogService: InputDialogService) {
+  constructor(public dataService: GroceriesService, public inputDialogService: InputDialogService, private socialSharing: SocialSharing) {
     this.groceries = this.dataService.getItems().asObservable();
   }
 
@@ -31,5 +30,22 @@ export class GroceryPage {
   async addItem() {
     let newGrocery = await this.inputDialogService.showItemPrompt('Add Item', 'Please enter item...');
     this.dataService.addItem(newGrocery);
+  }
+
+  async shareItem(grocery: Grocery, _index: number, listInput: IonItemSliding) {
+    console.log("Sharing Item: ", grocery);
+    this.dataService.close(listInput);
+
+    let message = "Grocery Item - Name: " + grocery.name + " - Quantity: " + grocery.count;
+    let subject = "Shared via Groceries app";
+
+    this.socialSharing.share(
+      message, 
+      subject
+    ).then(() => {
+      console.log("Grocery was shared succesfully");
+    }).catch((error: any) => {
+      console.log("Error sharing grocery item: ", error);
+    })
   }
 }
